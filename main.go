@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"path/filepath"
 	"sync"
+
+	"github.com/milden6/web-socket-chat/chat"
 )
 
 type templateHandler struct {
@@ -25,11 +27,14 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var addr = flag.String("addr", ":8080", "The addr of the app")
 	flag.Parse()
-	r := newRoom()
-	http.Handle("/", &templateHandler{filename: "chat.html"})
+	r := chat.NewRoom()
+
+	http.Handle("/chat", chat.MustAuth(&templateHandler{filename: "chat.html"}))
+	http.Handle("/login", &templateHandler{filename: "login.html"})
+	http.HandleFunc("/auth/", chat.LoginHandler)
 	http.Handle("/room", r)
 
-	go r.run()
+	go r.Run()
 
 	log.Println("Starting web server on", *addr)
 	if err := http.ListenAndServe(*addr, nil); err != nil {

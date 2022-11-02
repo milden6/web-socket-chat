@@ -1,4 +1,4 @@
-package main
+package chat
 
 import (
 	"log"
@@ -21,7 +21,7 @@ const (
 	messageBufferSize = 256
 )
 
-func newRoom() *room {
+func NewRoom() *room {
 	return &room{
 		forward: make(chan []byte),
 		join:    make(chan *client),
@@ -31,7 +31,7 @@ func newRoom() *room {
 	}
 }
 
-func (r *room) run() {
+func (r *room) Run() {
 	for {
 		select {
 		case client := <-r.join:
