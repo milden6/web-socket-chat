@@ -45,7 +45,9 @@ func main() {
 	http.Handle("/", chat.MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/chat", chat.MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/login", &templateHandler{filename: "login.html"})
+	http.Handle("/upload", &templateHandler{filename: "upload.html"})
 	http.HandleFunc("/auth/", chat.LoginHandler)
+	http.Handle("/avatars/", http.StripPrefix("/avatars/", http.FileServer(http.Dir("./avatars"))))
 	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		http.SetCookie(w, &http.Cookie{
 			Name:   "auth",
@@ -56,6 +58,7 @@ func main() {
 		w.Header().Set("Location", "/chat")
 		w.WriteHeader(http.StatusTemporaryRedirect)
 	})
+	http.HandleFunc("/uploader", chat.UploaderHandler)
 	http.Handle("/room", r)
 
 	go r.Run()
