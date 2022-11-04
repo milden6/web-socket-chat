@@ -40,7 +40,7 @@ func main() {
 	gomniauth.WithProviders(
 		google.New("KEY", "SECRET", "CALLBACK"),
 	)
-	r := chat.NewRoom()
+	r := chat.NewRoom(chat.UseGravatar)
 
 	http.Handle("/", chat.MustAuth(&templateHandler{filename: "chat.html"}))
 	http.Handle("/chat", chat.MustAuth(&templateHandler{filename: "chat.html"}))
