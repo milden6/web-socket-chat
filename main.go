@@ -36,9 +36,9 @@ func (t *templateHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 func main() {
 	var addr = flag.String("addr", ":8080", "The addr of the app")
 	flag.Parse()
-	gomniauth.SetSecurityKey("SECRET KEY")
+	gomniauth.SetSecurityKey("uCuh3tMWIlMoikB5C75xdj7XjxiLBrJxCyFuxrTuPOE")
 	gomniauth.WithProviders(
-		google.New("KEY", "SECRET", "CALLBACK"),
+		google.New("853444431515-kr332t0q8d0mcn0pebbmvo9p1vqa4rdh.apps.googleusercontent.com", "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", "http://localhost:8080/auth/callback/google"),
 	)
 	r := chat.NewRoom()
 
