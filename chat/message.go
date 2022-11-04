@@ -1,7 +1,8 @@
 package chat
 
 type message struct {
-	Name    string
-	Message string
-	When    string //time.Time
+	Name      string
+	Message   string
+	When      string
+	AvatarURL string
 }
